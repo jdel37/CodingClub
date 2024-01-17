@@ -1,10 +1,40 @@
+const recognition=new webkitSpeechRecognition()
 var myHeaders = new Headers();
+const video= document.querySelector('#vid')
 let btn1= document.querySelector('#b1')
 let btn2= document.querySelector('#b2')
 let texto=document.querySelector('#fuck')
 myHeaders.append("X-API-KEY", "3f2b34bd0c3ba113f147ddf0f27e5fc94bc65870");
 myHeaders.append("Content-Type", "application/json");
-texto.value= "Coding"
+var voices = speechSynthesis.getVoices();
+
+
+var voices =  window.speechSynthesis.getVoices();
+
+recognition.lang ='en-US'
+
+
+recognition.continuous = true
+
+
+recognition.interimResults = false
+recognition.onresult = (evens)=> {
+   const results = evens.results
+   const frase = results[results.length-1][0].transcript
+
+
+
+
+   texto.value = frase
+ 
+
+
+
+
+}
+
+
+
 
 
 
@@ -47,16 +77,42 @@ var ejecute=async(requestOptions)=>
     
     let res = await fetch("https://google.serper.dev/search", requestOptions)
     let result= await res.json()
-    await console.log(result.peopleAlsoAsk[1].snippet)
-    await leerTexto(result.peopleAlsoAsk[1].snippet)
+    const gogo= await result.peopleAlsoAsk//[1].snippet
+    console.log(gogo)
+    return leerTexto(gogo)  
   }
-
-  add
-  if()
+var playing=async(requestOptions)=>
+{
+  let response= await recognition.abort()
+   response && ejecute(requestOptions)
+}
+  btn1.addEventListener('click',c=>
   {
+      recognition.start()
+  })
+  btn2.addEventListener('click',c=>
+  {
+     playing(requestOptions)
+      var startTime = 4;
+      var endTime = 10;
+          c.preventDefault();
+         
+          function checkTime() {
+              if (video.currentTime >= endTime) {
+                 video.pause();
+              } else {
+                 /* call checkTime every 1/10th
+                    second until endTime */
+                 setTimeout(checkTime, 100);
+              }
+          }
+          video.currentTime = startTime;
+          video.play();
+          checkTime();
+          video.play()
+  })
+              
 
-  }
-ejecute(requestOptions)
 
 
 
